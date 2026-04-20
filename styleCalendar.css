@@ -1,0 +1,157 @@
+/*Reference: https://www.youtube.com/watch?v=OcncrLyddAs*/
+/*SOME concepts taken from: https://www.youtube.com/watch?v=ZBJ44LrmwDI*/
+/*Other reference: https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
+  and https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a*/
+/*This sets the global standards for the page, in which I chose Arial */
+body 
+{
+  font-family: Arial;
+  margin: 0;
+  background: #f5f6fa;
+}
+
+/*This is the color and design for the header containing the links and logo */
+header 
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: #AF7474;
+  border-bottom: 1px solid #ddd;
+}
+
+/*All this does is remove a margin in the header*/
+header h1 { margin: 0; }
+
+/*This is the navgiation, just adding space and a layout */
+nav 
+{ 
+  display: flex; 
+  gap: 20px; 
+}
+
+nav a 
+{
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/*This is the left sidebar */
+aside 
+{
+  width: 340px;
+  float: left;
+  padding: 20px;
+  background: white;
+  height: 100vh;
+  box-sizing: border-box;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+/*Input fields, where the user can add tasks. Also has a box-sizing to prevent the text from overflowing */
+.task-input, select 
+{
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+/*Buttons, choosing size and space */
+button 
+{
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button.secondary 
+{
+  background: #e5e7eb;
+  color: #333;
+}
+
+aside ul 
+{
+  padding: 0;
+  list-style: none;
+}
+
+aside li 
+{
+  background: #eef2ff;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+
+
+main 
+{
+  margin-left: 340px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/*Calander header Section */
+.calendar-header 
+{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header button 
+{
+  width: auto;
+  margin: 0 5px;
+}
+
+/*Table header section */
+table 
+{
+  width: 750px;
+  border-spacing: 10px;
+}
+/*This is for the days of the week, it centers it */
+th { text-align: center; }
+
+/*Using a table for calendar cells, specifically the days */
+td 
+{
+  background: white;
+  height: 100px;
+  vertical-align: top;
+  padding: 6px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/*This is to see what day it is and to show which one you selected. The selected it very useful */
+td.selected { outline: 2px solid #6366f1; }
+td.today { border: 2px solid #22c55e; }
+
+.task 
+{
+  display: block;
+  font-size: 10px;
+  margin-top: 3px;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+/*These are the colors for the statuses. Might change colors. */
+.todo { background: #fef3c7; }
+.inprogress { background: #dbeafe; }
+.completed { background: #dcfce7; text-decoration: line-through; opacity: 0.7; }

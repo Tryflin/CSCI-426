@@ -1,0 +1,87 @@
+<!--Most code is learned from HW2-->
+<!--some code is learned from: https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
+    and https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a-->
+    
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Header -->
+    <head>
+        <meta name="author" content="Tristian" />
+        <meta name="description" content="Calender" />
+        <meta charset="UTF-8" />
+
+        <title>Calendar</title>
+
+        <!--Link to style sheet-->
+        <link rel="stylesheet" href="styleCalendar.css" />
+    </head>
+
+    <!-- Body -->
+    <body>
+        <!-- Links -->
+        <header>
+            <h1>Logo</h1>
+
+            <nav>
+                <a href="#">Placeholder</a>
+                <a href="#">Placeholder</a>
+                <a href="#">Placeholder</a>
+                <a href="#">Placeholder</a>
+            </nav>
+        </header>
+
+        <!-- Tasks -->
+        <aside>
+            <h2 id="selectedDate">Select a date</h2>
+
+            <input id="taskTitle" class="task-input" placeholder="Title" />
+            <input id="taskDesc" class="task-input" placeholder="Description" />
+
+            <select name="optionPriority" id="taskPriority">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+
+            <select name="optionStatus" id="taskStatus">
+                <option>To-do</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+            </select>
+
+            <button onclick="addTask()">Add Task</button>
+            <button class="secondary" onclick="clearTasks()">Clear Day</button>
+
+            <ul id="taskList"></ul>
+        </aside>
+
+        <main>
+            <section>
+                <!--Navigation -->
+                <section class="calendar-header">
+                    <button onclick="changeMonth(-1)">-</button>
+                    <strong id="monthLabel"></strong>
+                    <button onclick="changeMonth(1)">-</button>
+                </section>
+                <!-- Table names for days -->
+                <table id="calendar">
+                    <thead>
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+        <!--Link to JavaScript-->
+        <script src="scriptCalendar.js"></script>
+    </body>
+</html>
