@@ -11,15 +11,18 @@
         <link rel="stylesheet" href="contactStyle.css" />
     </head>
 
+    
+
     <body>
         <header>
-            <h1><a href="#">Logo</a></h1>
+            <h1><a href="home.html">Logo</a></h1>
             
             <nav>
-                <a href="#">Home</a>
+                <a href="home.html">Home</a>
                 <a href="calendar.html">Calendar</a>
-                <a href="#">About</a>
+                <a href="aboutPage.html">About</a>
                 <a href="contact.html">Contact</a>
+                <a href="login.html">Login</a>
             </nav>
         </header>
 
@@ -71,11 +74,14 @@
                                 <option value="ad">Inappropriate Ad</option>
 
                                 <option value="feedback">General Feedback</option>
-                                <option value="other">Other (please be detailed in comments)</option>
+                                <option value="other">Other (custom subject)</option>
                             </select>
 
+                            <label for="otherReason" style="display: none;">Other</label>
+                            <input id="otherReason" type="text" maxlength="30" placeholder="Please Specify" style="display: none;">
+
                             <label for="clientMessage">Comments</label>
-                            <textarea id="clientMessage" placeholder="Please enter your question/comments/concerns." rows="10" maxlength="500" required></textarea>
+                            <textarea id="clientMessage" placeholder="Please enter your questions/comments/concerns." rows="10" maxlength="500" required></textarea>
 
                             <button type="reset">Clear</button>
                             <button type="submit">Submit</button>
@@ -85,5 +91,11 @@
             </section>
         </main>
        
+    </body>
+
+    <!--Script at the bottom because it was loading before the page finished before-->
+    <script src="contactScript.js"></script>
+</html>
+
     </body>
 </html>
