@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="eng">
+    <head>
+        <meta name="author" content="Hayden Arceneaux" />
+        <meta name="description" content="Contact Page" />
+        <meta charset="UTF-8" />
+
+        <title>Contact Us</title>
+
+        <link rel="stylesheet" href="contactStyle.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1><a href="#">Logo</a></h1>
+            
+            <nav>
+                <a href="#">Home</a>
+                <a href="calendar.html">Calendar</a>
+                <a href="#">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="contact-section">
+
+                <div class="contact-info">
+                    <h2>Contact Info</h2>
+
+                    <div class="cell">
+                        <img src="contact.jpg">
+                    </div>
+
+                    <div class="cell">
+                        <h3>Other Forms of Contact</h3>
+
+                        <p>
+                            <ul>
+                                <li>
+                                    <!--We definitely don't have a company phone number-->
+                                    Call us at (555)-555-5555
+                                </li>
+                                <li>
+                                    <!--We don't have a company email or anything-->
+                                    Email us directly at placeholder@placeholder.com
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Contact Us</h2>
+
+                    <div class="cell">
+                        <form name="contactPage" action="mailto:#" method="post">
+                            <label for="clientName">Full Name</label>
+                            <input id="clientName" type="text" maxlength="100" required>
+
+                            <label for="clientEmail">Email Address</label>
+                            <input id="clientEmail" type="email" maxlength="100" required>
+
+                            <label for="clientReason">Reason For Contact</label>
+                            <select id="clientReason">
+                                <option value="account">Account</option>
+
+                                <!--This is assuming we even had ads or they werent using an ad blocker-->
+                                <!--Was kinda struggling with ideas for why they would even contact us-->
+                                <option value="ad">Inappropriate Ad</option>
+
+                                <option value="feedback">General Feedback</option>
+                                <option value="other">Other (please be detailed in comments)</option>
+                            </select>
+
+                            <label for="clientMessage">Comments</label>
+                            <textarea id="clientMessage" placeholder="Please enter your question/comments/concerns." rows="10" maxlength="500" required></textarea>
+
+                            <button type="reset">Clear</button>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+       
+    </body>
+</html>

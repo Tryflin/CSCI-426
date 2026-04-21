@@ -1,0 +1,155 @@
+body 
+{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: #f5f6fa;
+}
+
+header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #af7474;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+header h1 {margin: 0;}
+
+/*I wanted the logo to also be a home button and the link color was messing with me*/
+header a 
+{
+    text-decoration: none;
+    color: #333;
+}
+
+nav
+{
+    display: flex;
+    /*gap: 20px;*/
+}
+
+nav a
+{
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+
+    padding: 10px 20px ;
+    background-color: #af7474;
+
+    display: inline-block;
+}
+
+/*I just wanted to have a little change when hovering over nav links this can change later or be removed*/
+nav a:hover
+{
+    /*text-decoration-color: #807f7f; */
+    background-color: #8b73c4;
+}
+
+/*Im gonna have two big sections to the left and right for the info and then the actual form*/
+.contact-section
+{
+    display: flex ;
+    gap: 20px ;
+    width: 90% ;
+    margin: 30px auto ;
+    align-items: stretch ;
+}
+
+/*left section*/
+.contact-info
+{
+    display: flex ;
+    flex: 1 ;
+    flex-direction: column;
+    gap: 20px ;
+}
+
+img 
+{
+    margin: auto;
+    width: 100%;
+}
+
+.contact-form
+{
+    display: flex ;
+    flex: 1 ;
+    flex-direction: column;
+    gap: 20px ;
+}
+
+.contact-form h2,
+.contact-info h2
+{
+    text-align: center;
+    font-size: 40px;
+}
+
+.cell
+{
+    border: 3px solid #af7474;
+    border-radius: 10px ;
+    padding: 10px ;
+    background-color: #ffffff;
+}
+
+.cell input,
+.cell select,
+.cell textarea 
+{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px ;
+    border-radius: 10px;
+    border: 3px solid #af7474;
+    margin-top: 5px ;
+    margin-bottom: 5px ;
+
+    outline: none;
+}
+
+/*I want to try to fit our accent color in a little more but this is the only spot I think I can*/
+.cell input:focus,
+.cell select:focus,
+.cell textarea:focus
+{
+    border: 3px solid #8b73c4 ;
+}
+
+.cell button
+{
+    width: 25%;
+    padding: 10px ;
+    border-radius: 10px ;
+    border: 3px solid #af7474 ;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #af7474;
+}
+
+/*Trying to decide on lighter color or accent color for hover*/
+.cell button:hover 
+{
+    /*
+    background-color: #dca6a6;
+    border-color: #dca6a6;
+    */
+
+    background-color: #8b73c4;
+    border-color: #8b73c4;
+
+}
+
+/*wanted custom bullet points and since I don't think I will change the order I'm gonna assign it in an order*/
+li:nth-child(1)::marker
+{
+    content: "☎";
+}
+li:nth-child(2)::marker
+{
+    content: "📧";
+}
