@@ -145,6 +145,7 @@ img
 }
 
 /*wanted custom bullet points and since I don't think I will change the order I'm gonna assign it in an order*/
+/*Could change depending on amount of contact info or maybe ill remove the phone number one*/
 li:nth-child(1)::marker
 {
     content: "☎";
