@@ -1,16 +1,14 @@
-/*Reference: https://www.youtube.com/watch?v=OcncrLyddAs*/
-/*SOME concepts taken from: https://www.youtube.com/watch?v=ZBJ44LrmwDI*/
-/*Other reference: https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
-  and https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a*/
-/*This sets the global standards for the page, in which I chose Arial */
+/*--Author of Task Management System Calendar Page: Tristian Jurgens*/
+
+/*This sets the global standards for the page, in which I chose times new roman*/
 body 
 {
-  font-family: Arial;
+  font-family: 'Times New Roman', Times, serif;
   margin: 0;
   background: #f5f6fa;
 }
 
-/*This is the color and design for the header containing the links and logo */
+/*This is the color and design for the header containing the links and logo*/
 header 
 {
   display: flex;
@@ -24,7 +22,7 @@ header
 /*All this does is remove a margin in the header*/
 header h1 { margin: 0; }
 
-/*This is the navgiation, just adding space and a layout */
+/*This is the navgiation, just adding space and a layout*/
 nav 
 { 
   display: flex; 
@@ -38,7 +36,7 @@ nav a
   font-weight: 500;
 }
 
-/*This is the left sidebar */
+/*This is the left sidebar*/
 aside 
 {
   width: 340px;
@@ -51,7 +49,7 @@ aside
   overflow-y: auto;
 }
 
-/*Input fields, where the user can add tasks. Also has a box-sizing to prevent the text from overflowing */
+/*Input fields, where the user can add tasks. Also has a box-sizing to prevent the text from overflowing*/
 .task-input, select 
 {
   width: 100%;
@@ -60,7 +58,7 @@ aside
   box-sizing: border-box;
 }
 
-/*Buttons, choosing size and space */
+/*Buttons, choosing size and space*/
 button 
 {
   margin-top: 10px;
@@ -94,8 +92,6 @@ aside li
   font-size: 12px;
 }
 
-
-
 main 
 {
   margin-left: 340px;
@@ -104,7 +100,7 @@ main
   justify-content: center;
 }
 
-/*Calander header Section */
+/*Calander header Section*/
 .calendar-header 
 {
   text-align: center;
@@ -117,16 +113,17 @@ main
   margin: 0 5px;
 }
 
-/*Table header section */
+/*Table header section*/
 table 
 {
   width: 750px;
   border-spacing: 10px;
 }
-/*This is for the days of the week, it centers it */
+
+/*This is for the days of the week, it centers it*/
 th { text-align: center; }
 
-/*Using a table for calendar cells, specifically the days */
+/*Using a table for calendar cells, specifically the days*/
 td 
 {
   background: white;
@@ -138,7 +135,7 @@ td
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/*This is to see what day it is and to show which one you selected. The selected it very useful */
+/*This is to see what day it is and to show which one you selected. The selector is very useful*/
 td.selected { outline: 2px solid #6366f1; }
 td.today { border: 2px solid #22c55e; }
 
@@ -151,7 +148,14 @@ td.today { border: 2px solid #22c55e; }
   border-radius: 4px;
 }
 
-/*These are the colors for the statuses. Might change colors. */
+/*These are the colors for the statuses. Might change colors.*/
 .todo { background: #fef3c7; }
 .inprogress { background: #dbeafe; }
 .completed { background: #dcfce7; text-decoration: line-through; opacity: 0.7; }
+
+/*References: 
+1. https://www.youtube.com/watch?v=OcncrLyddAs
+2. https://www.youtube.com/watch?v=ZBJ44LrmwDI
+3. https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
+4. https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a
+5. Class notes*/

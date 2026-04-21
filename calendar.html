@@ -1,7 +1,5 @@
-<!--Most code is learned from HW2-->
-<!--some code is learned from: https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
-    and https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a-->
-    
+<!--Author of Task Management System Calendar Page: Tristian Jurgens-->
+ 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,18 +19,20 @@
     <body>
         <!-- Links -->
         <header>
-            <h1>Logo</h1>
+            <h1>Task Management System</h1>
 
+            <!--Navigation links to the other pages-->
             <nav>
-                <a href="#">Placeholder</a>
-                <a href="#">Placeholder</a>
-                <a href="#">Placeholder</a>
-                <a href="#">Placeholder</a>
+                <a href="login.html">Home</a>
+                <a href="calendar.html">Calendar</a>
+                <a href="aboutPage.html">About</a>
+                <a href="contact.html">Contact</a>
             </nav>
         </header>
 
         <!-- Tasks -->
         <aside>
+            <!--This displays the currently selected date with a message telling the user to select a date for it to change-->
             <h2 id="selectedDate">Select a date</h2>
 
             <input id="taskTitle" class="task-input" placeholder="Title" />
@@ -50,7 +50,10 @@
                 <option>Completed</option>
             </select>
 
+            <!--Allows you to add a task by calling the JS function-->
             <button onclick="addTask()">Add Task</button>
+
+            <!--Allows you to clear all the tasks-->
             <button class="secondary" onclick="clearTasks()">Clear Day</button>
 
             <ul id="taskList"></ul>
@@ -58,13 +61,21 @@
 
         <main>
             <section>
-                <!--Navigation -->
+                <!--Navigation-->
+                <!--Switches between months -->
                 <section class="calendar-header">
-                    <button onclick="changeMonth(-1)">-</button>
+
+                    <!--Goes to the previous month-->
+                    <button onclick="changeMonth(-1)">←</button>
+
+                    <!--Displays the current month and year-->
                     <strong id="monthLabel"></strong>
-                    <button onclick="changeMonth(1)">-</button>
+
+                    <!--Goes to next month-->
+                    <button onclick="changeMonth(1)">→</button>
                 </section>
-                <!-- Table names for days -->
+
+                <!--Table names for days-->
                 <table id="calendar">
                     <thead>
                         <tr>
@@ -85,3 +96,8 @@
         <script src="scriptCalendar.js"></script>
     </body>
 </html>
+
+<!--Refrences:
+1. HW2
+2.  https://www.geeksforgeeks.org/web-templates/design-a-calendar-using-html-and-css/ 
+3.  https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a-->
