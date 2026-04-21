@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="SecurityStyle.css" />
+    <title>Signup Page</title>
+</head>
+<body>
+    <!--Top navigation bar-->
+    <!--Kept consistant with About Page-->
+    <nav>
+        <span class="logo">Task Management System</span>
+
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="AboutPage.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <!--Reused signup button for login-->
+        <a href="login.html" class="signup-button">Log In</a>
+    </nav>
+
+    <form action="">
+        <fieldset>
+            <legend>Create Your Account</legend>
+            <label for="Name">Enter Your User Name</label>
+            <input id="Name" name="Name" placeholder="Username" required></input>
+
+            <label for="Email">Enter Your Recovery Email</label>
+            <input id="Email" name="Email" placeholder="Email"></input>
+            
+            <label for="pass1">Enter Your Password</label>
+            <input id="pass1" name="pass1" placeholder="********" required></input>
+            
+            <label for="pass2">Confirm Your Password</label>
+            <input id="pass2" name="pass2" placeholder="********" required></input>
+        <button type="button" onclick="OnSignup()">Sign Up</button>
+        </fieldset>
+    </form>
+    <script src="signupPage.js"></script>
+</body>
+</html>
