@@ -1,53 +1,77 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body 
 {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    background-color: #f5f6fa;
+    font-family: Georgia, serif;
+    background-color: #f9e8e4;
+    color: #2c1f1f;
 }
 
-header
+nav 
 {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
-    background-color: #af7474;
-    /*border-bottom: 1px solid #ddd;*/
+    background-color: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #d4b0aa;
+    gap: 16px;
+    border-collapse: collapse;
 }
 
-header h1 {margin: 0;}
-
-/*I wanted the logo to also be a home button and the link color was messing with me*/
-header a 
+nav ul 
 {
-    text-decoration: none;
-    color: #333;
-}
-
-nav
-{
+    list-style: none;
     display: flex;
-    /*gap: 20px;*/
+    gap: 24px;
 }
 
-nav a
+
+nav ul a 
 {
     text-decoration: none;
-    color: #333;
-    font-weight: 500;
-
-    padding: 10px 20px ;
-    background-color: #af7474;
-
-    display: inline-block;
+    color: #6b5050;
+    font-size: 0.95rem;
 }
 
-/*I just wanted to have a little change when hovering over nav links this can change later or be removed*/
-nav a:hover
+nav ul a:hover
 {
-    /*text-decoration-color: #807f7f; */
-    background-color: #8b73c4;
+    color: #9a5e5e;
 }
+
+.signup-button
+{
+    background-color: #7174AA;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.signup-button:hover 
+{
+    background-color: #5a5d8f;
+}
+
+.logo 
+{
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-right: auto;
+}
+
+/*Divider*/
+.divider
+{
+    height: 28px;
+    background-color: #AF7474;
+}
+
 
 /*Im gonna have two big sections to the left and right for the info and then the actual form*/
 .contact-section
@@ -142,15 +166,4 @@ img
     background-color: #8b73c4;
     border-color: #8b73c4;
 
-}
-
-/*wanted custom bullet points and since I don't think I will change the order I'm gonna assign it in an order*/
-/*Could change depending on amount of contact info or maybe ill remove the phone number one*/
-li:nth-child(1)::marker
-{
-    content: "☎";
-}
-li:nth-child(2)::marker
-{
-    content: "📧";
 }

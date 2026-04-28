@@ -8,32 +8,56 @@ body
   background: #f5f6fa;
 }
 
-/*This is the color and design for the header containing the links and logo*/
-header 
-{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 30px;
-  background: #AF7474;
-  border-bottom: 1px solid #ddd;
-}
-
-/*All this does is remove a margin in the header*/
-header h1 { margin: 0; }
-
-/*This is the navgiation, just adding space and a layout*/
 nav 
-{ 
-  display: flex; 
-  gap: 20px; 
+{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #d4b0aa;
+    gap: 16px;
 }
 
-nav a 
+nav ul 
 {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
+    list-style: none;
+    display: flex;
+    gap: 24px;
+}
+
+
+nav ul a 
+{
+    text-decoration: none;
+    color: #6b5050;
+    font-size: 0.95rem;
+}
+
+nav ul a:hover
+{
+    color: #9a5e5e;
+}
+
+.signup-button
+{
+    background-color: #7174AA;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.signup-button:hover 
+{
+    background-color: #5a5d8f;
+}
+
+.logo 
+{
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-right: auto;
 }
 
 /*This is the left sidebar*/

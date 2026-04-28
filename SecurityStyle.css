@@ -127,8 +127,10 @@ input {
     flex-direction: row;
     align-items: center;
     gap: 200px;
-    margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 6px;
     font-weight: normal;
+    white-space: noWrap;
 }
 
 button {
