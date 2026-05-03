@@ -1,27 +1,56 @@
 //Author of Task Management System Calendar Page: Tristian Jurgens//
+//so much has changed...//
 
-//stores date, renders the view, and stores tasks by date key//
+//stores date, renders the view, and stores tasks by date key, now also looks at the userID//
 let current = new Date();
 let selected = null;
+let currentUserId = null;
 const tasks = {};
 
-//Display for months//
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+// Months//
+const months = 
+[
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+];
 
-//Weird way to display dates, makes a unique key for each one in a yyyy-m-d format//
-function key(y,m,d)
-{ 
-    return `${y}-${m+1}-${d}`; 
+//Must login before being able to load the calendar, as loading it beforehand does not work well//
+fetch("getUser.php")
+    .then(res => res.json())
+    .then(data => 
+    {
+        if (!data.loggedIn) 
+        {
+            alert("You are not logged in");
+            window.location.href = "login.html";
+            return;
+        }
+
+        currentUserId = data.user_id;
+        console.log("Logged in as user:", currentUserId);
+
+        loadTasksFromDB(); 
+    })
+    .catch(err => console.error("User session error:", err));
+
+
+//Date key, changed again because of database//
+function key(y, m, d) 
+{
+    const mm = String(m + 1).padStart(2, "0");
+    const dd = String(d).padStart(2, "0");
+    return `${y}-${mm}-${dd}`;
 }
 
 //This is to change the month whenever you hit the next or previous button//
-function changeMonth(o)
-{ 
-    current.setMonth(current.getMonth()+o); generateCalendar(); 
+function changeMonth(o) 
+{
+    current.setMonth(current.getMonth() + o);
+    generateCalendar();
 }
 
-//This does the heavy lifting, it generates the calendar ui//
-function generateCalendar()
+//This does the heavy lifting, it generates the calendar ui, has been changed to look better//
+function generateCalendar() 
 {
     const m=current.getMonth(), y=current.getFullYear();
 
@@ -84,6 +113,7 @@ function generateCalendar()
     tbody.appendChild(row);
 }
 
+
 //This is what allows you to select a date on the calendar//
 function selectDate(d,m,y,el)
 {
@@ -96,59 +126,100 @@ function selectDate(d,m,y,el)
     el.classList.add("selected");
 }
 
-//As the name suggests, it adds a task to the date selected//
-function addTask()
+
+//adds a task, changed to include reminders and to have the new sql stuff//
+function addTask() 
 {
     //Cool function to return an error if you didnt select a date, prevents adding the task//
-    if(!selected) return alert("Select a date");
+    if (!selected) return alert("Select a date");
 
-    //input values//
-    const title=document.getElementById("taskTitle").value;
-    const desc=document.getElementById("taskDesc").value;
-    const priority=document.getElementById("taskPriority").value;
-    const status=document.getElementById("taskStatus").value;
+    //input values, changed to now have a reminder//
+    const title = document.getElementById("taskTitle").value;
+    const desc = document.getElementById("taskDesc").value;
+    const priority = document.getElementById("taskPriority").value;
+    const status = document.getElementById("taskStatus").value;
+    const reminder = document.getElementById("taskReminder").value;
 
     //Disallows the use of empty titles, may get rid of//
-    if(!title) return;
+    if (!title) return;
 
-    if(!tasks[selected]) tasks[selected]=[];
+    //new stuff to add it to the SQL, must match what is in the SQL, otherwise doesnt save//
+    const data = 
+    {
+        user_id: currentUserId,
+        title,
+        description: desc,
+        priority,
+        status,
+        date: selected,
+        reminder_time: reminder  
+    };
 
-    //This adds the new task//
-    tasks[selected].push({title,desc,priority,status});
+    //allows you to add the task to the database//
+    fetch("saveTask.php", 
+    {
+        method: "POST",
+        headers: 
+        {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
 
-    //it just an easy was to clear the input fields//
-    document.getElementById("taskTitle").value="";
-    document.getElementById("taskDesc").value="";
+    .then(res => res.json())
+    .then(response => 
+    {
+        console.log(response);
 
-    //refreshes the UI to reflect the tasks added//
-    renderTasks(); 
-    generateCalendar();
+        if (!tasks[selected]) tasks[selected] = [];
+
+        //This adds the new task//
+        tasks[selected].push(
+        {
+            title,
+            desc,
+            priority,
+            status,
+            reminder
+        });
+
+        //it just an easy way to clear the input fields//
+        document.getElementById("taskTitle").value = "";
+        document.getElementById("taskDesc").value = "";
+
+        //refreshes the UI to reflect the tasks added//
+        renderTasks();
+        generateCalendar();
+    })
+    //error finding//
+    .catch(err => console.error(err));
 }
 
-//These are the different functions for tasks:
+
+//These are the different functions for tasks//
 //Deletes a task//
-function deleteTask(i)
+function deleteTask(i) 
 {
-    tasks[selected].splice(i,1);
-    renderTasks(); 
+    tasks[selected].splice(i, 1);
+    renderTasks();
     generateCalendar();
 }
 
-//The toggle for the tasks, specifically whether it is completed or no //
-function toggleTask(i)
+//The toggle for the tasks, specifically whether it is completed or not//
+function toggleTask(i) 
 {
-    const t=tasks[selected][i];
-    t.status = t.status==="Completed"?"Todo":"Completed";
-    renderTasks(); 
+    const t = tasks[selected][i];
+    t.status = t.status === "Completed" ? "To-do" : "Completed";
+    renderTasks();
     generateCalendar();
 }
 
 // toggle to clear the tasks from the calendar//
-function clearTasks()
+function clearTasks() 
 {
     if(!selected) return;
-    tasks[selected]=[];
-    renderTasks(); 
+    tasks[selected] = [];
+    renderTasks();
     generateCalendar();
 }
 
@@ -187,14 +258,138 @@ function renderTasks()
         list.appendChild(li);
     });
 }
-//This is what determines what loads on page load//
-generateCalendar();
 
+//New code, loads the data from the database using the php files, backend//
+function loadTasksFromDB() 
+{
+    fetch("getTasks.php")
+    .then(res => res.json())
+    .then(data => 
+    {
+
+        //reset memory?//
+        for (const k in tasks) 
+        {
+            delete tasks[k];
+        }
+
+        //Convert DB rows into grouped structure by date//
+        data.forEach(t => 
+        {
+            const dateKey = t.task_date;
+
+            if (!tasks[dateKey]) 
+            {
+                tasks[dateKey] = [];
+            }
+
+            tasks[dateKey].push(
+            {
+                id: t.id,   
+                title: t.title,
+                desc: t.description,
+                priority: t.priority,
+                status: t.status,
+                reminder: t.reminder_time
+            });
+        });
+
+        generateCalendar();
+    })
+    .catch(err => console.error(err));
+}
+
+//logout function, stupid easy//
+window.logout = function () 
+{
+    console.log("logout clicked");
+
+    fetch("logout.php")
+        .then(res => res.json())
+        .then(data => 
+        {
+            console.log(data);
+
+            if (data.success) 
+            {
+                window.location.href = "login.html";
+            }
+        })
+        .catch(err => console.error(err));
+};
+
+// Ask for permission once//
+//this is the notifications that sometimes work?//
+if (Notification.permission !== "granted") 
+{
+    Notification.requestPermission();
+}
+
+//double checks that reminder times//
+function checkReminders() 
+{
+    const now = new Date();
+
+    Object.keys(tasks).forEach(dateKey => 
+    {
+        tasks[dateKey].forEach(task => 
+        {
+            if (!task.reminder || task.notified) return;
+
+            const reminderTime = new Date(task.reminder);
+
+            if (now >= reminderTime) 
+            {
+
+                if (Notification.permission === "granted") 
+                {
+                    new Notification("Task Reminder", 
+                    {
+                        body: task.title + " is due now!"
+                    });
+                }
+
+                //only to prevent multiple notifications, as I got spammed at one point
+                task.notified = true;
+            }
+        });
+    });
+}
+
+// run every 30 seconds, this is temporary for reminders//
+setInterval(checkReminders, 30000);
+
+//This is to delete tasks from the backend, no longer the just the frontend//
+function deleteTask(i) 
+{
+    const task = tasks[selected][i];
+
+    //this is similar to the other one, allows you to delete the task from database//
+    fetch("deleteTask.php", 
+    {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+        {
+            id: task.id
+        })
+    })
+
+    .then(res => res.json())
+    .then(data => 
+    {
+        console.log(data);
+
+        tasks[selected].splice(i, 1);
+        renderTasks();
+        generateCalendar();
+    })
+    .catch(err => console.error(err));
+}
 //Refrences for JS (I had to learn a lot, and a lot of code is learned from these sources): 
 //1. https://www.youtube.com/watch?v=ZBJ44LrmwDI
 //2. https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a
 //3. https://www.youtube.com/watch?v=OcncrLyddAs
 //4. https://stackoverflow.com/questions/3260939/month-array-in-javascript-not-pretty
 //5. https://blog.avada.io/css/calendars
-//Might change: add more bubbles after the last day to make a complete week, like how I did the days before the 1st day
-//Also I wanna add more colors to tasks
+//6. https://www.youtube.com/watch?v=tq0ghtZsHJ0 (this is just how to insert into mySQL)

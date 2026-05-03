@@ -17,26 +17,29 @@
 
     <!-- Body -->
     <body>
-        <nav>
-            <span class="logo">Task Management System</span>
+        <!-- Had to change, somewhere stopped working -->
+        <header>
+            <h1>Task Management System</h1>
 
-            <ul>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="index.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-
-            <a href="signup.html" class="signup-button">Sign Up</a>
-        </nav>
+            <!--Navigation links to the other pages-->
+            <nav>
+                <a href="calendar.html">Calendar</a>
+                <a href="index.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </header>
 
         <!-- Tasks -->
         <aside>
             <!--This displays the currently selected date with a message telling the user to select a date for it to change-->
             <h2 id="selectedDate">Select a date</h2>
 
+            <!--added task reminders-->
+            <label for="taskReminder">Reminder Time:</label>
+            <input type="datetime-local" id="taskReminder" class="task-input" />
             <input id="taskTitle" class="task-input" placeholder="Title" />
             <input id="taskDesc" class="task-input" placeholder="Description" />
-
+            
             <select name="optionPriority" id="taskPriority">
                 <option>Low</option>
                 <option>Medium</option>
@@ -61,9 +64,8 @@
         <main>
             <section>
                 <!--Navigation-->
-                <!--Switches between months -->
+                <!--Switches between months-->
                 <section class="calendar-header">
-
                     <!--Goes to the previous month-->
                     <button onclick="changeMonth(-1)">←</button>
 
@@ -72,6 +74,10 @@
 
                     <!--Goes to next month-->
                     <button onclick="changeMonth(1)">→</button>
+
+                    <!--Logout button added-->
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+
                 </section>
 
                 <!--Table names for days-->
