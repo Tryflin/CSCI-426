@@ -1,39 +1,64 @@
 /*--Author of Task Management System Calendar Page: Tristian Jurgens*/
 
-/*This sets the global standards for the page, in which I chose times new roman*/
+/*Changed the header and body colors and size to match the others*/
+* 
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*the color of the main page, like the background of the calendar*/
 body 
 {
-  font-family: 'Times New Roman', Times, serif;
-  margin: 0;
-  background: #f5f6fa;
+  font-family: Georgia, serif;
+  background-color: #f9e8e4;
+  color: #2c1f1f;
 }
 
-/*This is the color and design for the header containing the links and logo*/
-header 
+/*Changes alignment of the navbar and the links */
+nav 
 {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
-  background: #AF7474;
-  border-bottom: 1px solid #ddd;
+  background-color: white;
+  padding: 16px 32px;
+  border-bottom: 1px solid #d4b0aa;
+  gap: 16px;
+  min-height: 64px; 
 }
 
-/*All this does is remove a margin in the header*/
-header h1 { margin: 0; }
-
-/*This is the navgiation, just adding space and a layout*/
-nav 
-{ 
-  display: flex; 
-  gap: 20px; 
+/*This is the task management on the left, no longer a logo */
+.logo 
+{
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-right: auto;
+  line-height: 1;
 }
 
-nav a 
+/*These are the links that makes them have no bullet points and spacing */
+nav ul 
+{
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/*Just color */
+nav ul a 
 {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
+  color: #6b5050;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/*Hover affect whenever you hightlink a link */
+nav ul a:hover 
+{
+  color: #9a5e5e;
 }
 
 /*This is the left sidebar*/
