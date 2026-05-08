@@ -32,11 +32,15 @@
         <!-- Changed back, stuff broke again -->
         <nav>
             <span class="logo">Task Management System</span>
+
             <ul>
                 <li><a href="calendar.html">Calendar</a></li>
                 <li><a href="index.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
+
+            <!--logout button moved-->
+            <a href="#" class="signup-button" onclick="logout()">Logout</a>
         </nav>
 
         <!-- Tasks -->
@@ -85,9 +89,6 @@
 
                     <!--Goes to next month-->
                     <button onclick="changeMonth(1)">→</button>
-
-                    <!--Logout button added-->
-                    <button class="logout-btn" onclick="logout()">Logout</button>
                     
                 </section>
 
