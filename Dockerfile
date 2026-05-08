@@ -1,12 +1,19 @@
 FROM php:8.2-apache
 
-# Fix Apache MPM conflict
-RUN a2dismod mpm_event && a2enmod mpm_prefork
+# Remove all enabled MPMs first
+RUN a2dismod mpm_event || true
+RUN a2dismod mpm_worker || true
+RUN a2dismod mpm_prefork || true
 
-# Install MySQL PDO driver
+# Enable only prefork
+RUN a2enmod mpm_prefork
+
+# Install MySQL PDO extension
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy project files
+# Copy app files
 COPY . /var/www/html/
 
 EXPOSE 80
+
+CMD ["apache2-foreground"]
