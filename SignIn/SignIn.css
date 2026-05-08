@@ -1,0 +1,170 @@
+/*Author of the Login and Signup pages: Dane Boyd
+    This is the CSS for both security pages
+    Care was taking to keep this consistant with other pages, Specifically The About Page
+*/*
+
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body 
+{
+    font-family: Georgia, serif;
+    background-color: #f9e8e4;
+    color: #2c1f1f;
+}
+
+nav 
+{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #d4b0aa;
+    gap: 16px;
+}
+
+nav ul 
+{
+    list-style: none;
+    display: flex;
+    gap: 24px;
+}
+
+
+nav ul a 
+{
+    text-decoration: none;
+    color: #6b5050;
+    font-size: 0.95rem;
+}
+
+nav ul a:hover
+{
+    color: #9a5e5e;
+}
+
+.signup-button
+{
+    background-color: #7174AA;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.signup-button:hover 
+{
+    background-color: #5a5d8f;
+}
+
+.logo 
+{
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-right: auto;
+}
+
+/*Styled Forms seperate from nav*/
+form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    line-height: 1.5;
+    min-height: 100vh;
+    margin: 20;
+}
+
+/*Formatted like button*/
+legend{
+    background-color: #d29f98;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    
+    display: block;
+    text-align: center;
+    
+    border: 2px solid rgb(237, 237, 237);
+}
+
+fieldset{
+    background-color:#d4b0aa;
+    margin: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #555;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.rememberMe{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 200px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: normal;
+    white-space: noWrap;
+}
+
+button {
+    padding: 8px 18px;
+    border-radius: 6px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: white;
+    cursor: pointer;
+    background-color: #7174AA;
+    width: 100%;
+    font-size: 16px;
+}
+button:hover{
+    background-color: #5a5d8f;
+}
+
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-button
+{
+    background-color: #7174AA;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.signup-button:hover 
+{
+    background-color: #5a5d8f;
+}
