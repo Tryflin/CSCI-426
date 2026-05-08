@@ -20,23 +20,22 @@
         <a href="login.html" class="signup-button">Log In</a>
     </nav>
 
-    <form action="">
+    <form action="signup.php" method="POST">
         <fieldset>
             <legend>Create Your Account</legend>
             <label for="Name">Enter Your User Name</label>
             <input id="Name" name="Name" placeholder="Username" required></input>
 
             <label for="Email">Enter Your Recovery Email</label>
-            <input id="Email" name="Email" placeholder="Email"></input>
+            <input id="Email" name="Email" placeholder="Email" required></input>
             
             <label for="pass1">Enter Your Password</label>
-            <input id="pass1" name="pass1" placeholder="********" required></input>
+            <input id="pass1" name="pass1" type="password" placeholder="********" required></input>
             
             <label for="pass2">Confirm Your Password</label>
-            <input id="pass2" name="pass2" placeholder="********" required></input>
-        <button type="button" onclick="OnSignup()">Sign Up</button>
+            <input id="pass2" name="pass2" type="password" placeholder="********" required></input>
+        <button type="submit">Sign Up</button>
         </fieldset>
     </form>
-    <script src="signupPage.js"></script>
 </body>
 </html>

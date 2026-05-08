@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="SecurityStyle.css" />
+    <title>Signup Page</title>
+</head>
+<body>
+    <!--Top navigation bar-->
+    <!--Kept consistant with About Page-->
+    <nav>
+        <span class="logo">Task Management System</span>
+
+        <ul>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="index.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <!--Reused signup button for login-->
+        <a href="login.html" class="signup-button">Log In</a>
+    </nav>
+
+    <form action="signup.php" method="POST">
+        <fieldset>
+            <legend>Create Your Account</legend>
+            <label for="Name">Enter Your User Name</label>
+            <input id="Name" name="Name" placeholder="Username" required></input>
+
+            <label for="Email">Enter Your Recovery Email</label>
+            <input id="Email" name="Email" placeholder="Email" required></input>
+            
+            <label for="pass1">Enter Your Password</label>
+            <input id="pass1" name="pass1" type="password" placeholder="********" required></input>
+            
+            <label for="pass2">Confirm Your Password</label>
+            <input id="pass2" name="pass2" type="password" placeholder="********" required></input>
+        <button type="submit">Sign Up</button>
+        <u1>
+            Your passwords did not match!
+        </u1>
+        </fieldset>
+    </form>
+</body>
+</html>
