@@ -173,6 +173,69 @@ td.today { border: 2px solid #22c55e; }
   border-radius: 4px;
 }
 
+/*New changes for accessibility options*/
+.dyslexia-font 
+{
+    font-family: "OpenDyslexic", Arial, sans-serif;
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+    line-height: 1.6;
+}
+
+/* */
+#bottomControls 
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    border-top: 1px solid #ccc;
+    z-index: 1000;
+}
+
+/*switching colors*/
+.high-contrast 
+{
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+/*switching colors*/
+.high-contrast td 
+{
+    background-color: #111 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+/*You get it */
+.high-contrast .task 
+{
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.high-contrast button 
+{
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 2px solid #fff;
+}
+
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea 
+{
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid #fff;
+}
+
 /*These are the colors for the statuses. Might change colors.*/
 .todo { background: #fef3c7; }
 .inprogress { background: #dbeafe; }

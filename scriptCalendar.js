@@ -2,9 +2,14 @@
 //so much has changed...//
 
 //stores date, renders the view, and stores tasks by date key, now also looks at the userID//
+//added stuff for new buttons//
 let current = new Date();
 let selected = null;
 let currentUserId = null;
+let showTasks = true;
+let showSidebarTasks = true;
+let dyslexiaMode = false;
+let highContrastMode = false;
 const tasks = {};
 
 // Months//
@@ -50,6 +55,7 @@ function changeMonth(o)
 }
 
 //This does the heavy lifting, it generates the calendar ui, has been changed to look better//
+//I have had to change this so  many times//
 function generateCalendar() 
 {
     const m=current.getMonth(), y=current.getFullYear();
@@ -78,6 +84,7 @@ function generateCalendar()
     //loop for the month, essentially checking if we hit 7 days before starting a next line, the tr is for the table//
     for(let d=1;d<=days;d++)
     {
+        //this just checks if we have filled in the row and goes to the next one
         if(row.children.length===7)
         { 
             tbody.appendChild(row); row=document.createElement("tr"); 
@@ -98,13 +105,16 @@ function generateCalendar()
 
         //displays the tasks for the day chosen//
         const k=key(y,m,d);
-        (tasks[k]||[]).forEach(t=>
+        if (showTasks) 
         {
-            const s=document.createElement("span");
-            s.className=`task ${t.status.toLowerCase()}`;
-            s.textContent=t.title;
-            td.appendChild(s);
-        });
+            (tasks[k] || []).forEach(t =>
+            {
+                const s = document.createElement("span");
+                s.className = `task ${t.status.toLowerCase()}`;
+                s.textContent = t.title;
+                td.appendChild(s);
+            });
+        }
 
         row.appendChild(td);
     }
@@ -195,23 +205,67 @@ function addTask()
     .catch(err => console.error(err));
 }
 
-
-//These are the different functions for tasks//
-//Deletes a task//
-function deleteTask(i) 
+//This is to delete tasks from the backend, no longer the just the frontend//
+//changed and deleted the original, changed for id//
+function deleteTask(id) 
 {
-    tasks[selected].splice(i, 1);
-    renderTasks();
-    generateCalendar();
+    for (const date in tasks) 
+    {
+        const index = tasks[date].findIndex(t => t.id === id);
+
+        if (index !== -1) 
+        {
+            const task = tasks[date][index];
+
+            fetch("deleteTask.php", 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: task.id })
+            })
+            .then(res => res.json())
+            .then(data => 
+            {
+                tasks[date].splice(index, 1);
+                renderTasks();
+                generateCalendar();
+            })
+            .catch(err => console.error(err));
+
+            return;
+        }
+    }
 }
 
+//These are the different functions for tasks//
+
 //The toggle for the tasks, specifically whether it is completed or not//
-function toggleTask(i) 
+//changed for id instead of i because of backend//
+function toggleTask(id) 
 {
-    const t = tasks[selected][i];
-    t.status = t.status === "Completed" ? "To-do" : "Completed";
-    renderTasks();
-    generateCalendar();
+    for (const date in tasks) 
+    {
+        const task = tasks[date].find(t => t.id === id);
+
+        if (task) 
+        {
+            task.status = task.status === "Completed" ? "To-do" : "Completed";
+
+            fetch("updateTasks.php", 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(
+                {
+                    id: task.id,
+                    status: task.status
+                })
+            });
+
+            generateCalendar();
+            return;
+        }
+    }
 }
 
 // toggle to clear the tasks from the calendar//
@@ -224,33 +278,46 @@ function clearTasks()
 }
 
 //This renders the task data for the date selected//
-function renderTasks()
+//so much error fixing//
+function renderTasks(filter = "") 
 {
-    const list=document.getElementById("taskList");
-    list.innerHTML="";
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
 
-    //Loop through each task for the selected date
-    (tasks[selected]||[]).forEach((t,i)=>
+    const query = filter.toLowerCase();
+
+    const allTasks = Object.values(tasks).flat();
+
+    const filtered = allTasks.filter(t =>
+        t.title.toLowerCase().includes(query) ||
+        (t.desc || "").toLowerCase().includes(query) ||
+        t.status.toLowerCase().includes(query) ||
+        t.priority.toLowerCase().includes(query)
+    );
+
+    if (filtered.length === 0) 
     {
-        const li=document.createElement("li");
+        list.innerHTML = "<li>No tasks found</li>";
+        return;
+    }
 
-        //structure//
-        li.innerHTML=
-        `
-            <strong>${t.title}</strong>
-            <span class='task-meta'>${t.priority} | ${t.status}</span>
-            <span>${t.desc}</span>
+    filtered.forEach(task => 
+    {
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+            <strong>${task.title}</strong>
+            <span class='task-meta'>${task.priority} | ${task.status}</span>
+            <span>${task.desc}</span>
         `;
 
-        //toggle button//
-        const toggle=document.createElement("button");
-        toggle.textContent="Toggle";
-        toggle.onclick=()=>toggleTask(i);
+        const toggle = document.createElement("button");
+        toggle.textContent = "Toggle";
+        toggle.onclick = () => toggleTask(task.id);
 
-        //delete button//
-        const del=document.createElement("button");
-        del.textContent="Delete";
-        del.onclick=()=>deleteTask(i);
+        const del = document.createElement("button");
+        del.textContent = "Delete";
+        del.onclick = () => deleteTask(task.id);
 
         li.appendChild(toggle);
         li.appendChild(del);
@@ -266,15 +333,19 @@ function loadTasksFromDB()
     .then(res => res.json())
     .then(data => 
     {
+        if (!data.success) 
+        {
+            console.error("Task load error:", data.error);
+            return;
+        }
 
-        //reset memory?//
+        // reset memory
         for (const k in tasks) 
         {
             delete tasks[k];
         }
 
-        //Convert DB rows into grouped structure by date//
-        data.forEach(t => 
+        data.data.forEach(t => 
         {
             const dateKey = t.task_date;
 
@@ -285,7 +356,7 @@ function loadTasksFromDB()
 
             tasks[dateKey].push(
             {
-                id: t.id,   
+                id: t.id,
                 title: t.title,
                 desc: t.description,
                 priority: t.priority,
@@ -296,6 +367,7 @@ function loadTasksFromDB()
 
         generateCalendar();
     })
+    //error checking//
     .catch(err => console.error(err));
 }
 
@@ -359,33 +431,67 @@ function checkReminders()
 // run every 30 seconds, this is temporary for reminders//
 setInterval(checkReminders, 30000);
 
-//This is to delete tasks from the backend, no longer the just the frontend//
-function deleteTask(i) 
+function searchTasks() 
 {
-    const task = tasks[selected][i];
-
-    //this is similar to the other one, allows you to delete the task from database//
-    fetch("deleteTask.php", 
-    {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-        {
-            id: task.id
-        })
-    })
-
-    .then(res => res.json())
-    .then(data => 
-    {
-        console.log(data);
-
-        tasks[selected].splice(i, 1);
-        renderTasks();
-        generateCalendar();
-    })
-    .catch(err => console.error(err));
+    const query = document.getElementById("taskSearch").value;
+    renderTasks(query);
 }
+
+//just a toggle button//
+function toggleAllTasksVisibility() 
+{
+    showTasks = !showTasks;
+    generateCalendar();
+}
+
+//another toggle//
+function toggleSidebarTasks() 
+{
+    showSidebarTasks = !showSidebarTasks;
+
+    const list = document.getElementById("taskList");
+
+    if (showSidebarTasks) 
+    {
+        list.style.display = "block";
+    } 
+    else 
+    {
+        list.style.display = "none";
+    }
+}
+
+//toggle//
+function toggleDyslexiaFont() 
+{
+    dyslexiaMode = !dyslexiaMode;
+
+    if (dyslexiaMode) 
+    {
+        document.body.classList.add("dyslexia-font");
+    } 
+    else 
+    {
+        document.body.classList.remove("dyslexia-font");
+    }
+}
+
+function toggleHighContrast() 
+{
+    highContrastMode = !highContrastMode;
+
+    document.body.classList.toggle("high-contrast", highContrastMode);
+
+    localStorage.setItem("highContrastMode", highContrastMode);
+}
+
+//makes sure order is good//
+document.addEventListener("DOMContentLoaded", () => 
+{
+    generateCalendar();
+});
+
+
 //Refrences for JS (I had to learn a lot, and a lot of code is learned from these sources): 
 //1. https://www.youtube.com/watch?v=ZBJ44LrmwDI
 //2. https://medium.com/@bijanrai/create-a-calendar-using-html-css-and-javascript-2a35eb7e5f5a

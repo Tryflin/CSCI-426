@@ -13,7 +13,19 @@
 
         <!--Link to style sheet-->
         <link rel="stylesheet" href="styleCalendar.css" />
+        <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/opendyslexic">
     </head>
+
+    <!-- Goes at the bottom of the page. Its essentially all the new features -->
+    <div id="bottomControls">
+        <button onclick="toggleAllTasksVisibility()">Toggle Calendar Tasks</button>
+
+        <button onclick="toggleSidebarTasks()">Toggle Sidebar Tasks</button>
+
+        <button onclick="toggleDyslexiaFont()">Dyslexia Font</button>
+
+        <button onclick="toggleHighContrast()">High Contrast</button>
+    </div>
 
     <!-- Body -->
     <body>
@@ -37,6 +49,7 @@
             <input type="datetime-local" id="taskReminder" class="task-input" />
             <input id="taskTitle" class="task-input" placeholder="Title" />
             <input id="taskDesc" class="task-input" placeholder="Description" />
+            <input id="taskSearch" class="task-input" placeholder="Search tasks..." oninput="searchTasks()" />
             
             <select name="optionPriority" id="taskPriority">
                 <option>Low</option>
@@ -75,7 +88,7 @@
 
                     <!--Logout button added-->
                     <button class="logout-btn" onclick="logout()">Logout</button>
-
+                    
                 </section>
 
                 <!--Table names for days-->
