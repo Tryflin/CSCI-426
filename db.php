@@ -1,9 +1,10 @@
 <?php
-$host = "localhost";
-$db   = "task_app";
-$user = "root";
-$pass = "";
-$port = 3306;
+//Changing these again...//
+$host = getenv("MYSQLHOST");
+$db   = getenv("MYSQLDATABASE");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$port = getenv("MYSQLPORT");
 
 try 
 {
