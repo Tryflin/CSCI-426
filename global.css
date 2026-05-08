@@ -1,0 +1,94 @@
+/* Author of Task Management System Index/About Page: Ben Phan
+    5/7/26: New "global" stylesheet for navbar and new server render related files
+    split specific parts of aboutStyle.css into here and removed duplicates  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, serif;
+    background-color: #fdf6f4;
+    color: #2c1f1f;
+}
+
+/*Nav*/
+nav {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #d4b0aa;
+    gap: 16px;
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-right: auto;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+}
+
+nav ul a {
+    text-decoration: none;
+    color: #6b5050;
+    font-size: 0.95rem;
+}
+
+nav ul a:hover {
+    color: #9a5e5e;
+}
+
+.nav-button {
+    background-color: #7174AA;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.nav-button:hover {
+    background-color: #5a5d8f;
+}
+
+/*Divider*/
+.divider {
+    height: 28px;
+    background-color: #AF7474;
+}
+
+/*Footer*/
+footer {
+    background-color: #AF7474;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+}
+
+/*Scroll Button*/
+#scrollButton {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background-color: #7174AA;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+}
+
+#scrollButton:hover {
+    background-color: #5a5d8f;
+}
