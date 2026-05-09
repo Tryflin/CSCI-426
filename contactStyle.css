@@ -81,6 +81,8 @@ nav ul a:hover
     width: 90% ;
     margin: 30px auto ;
     align-items: stretch ;
+
+    
 }
 
 /*left section*/
@@ -166,4 +168,38 @@ img
     background-color: #8b73c4;
     border-color: #8b73c4;
 
+}
+
+/*wanted custom bullet points and since I don't think I will change the order I'm gonna assign it in an order*/
+/*Could change depending on amount of contact info or maybe ill remove the phone number one*/
+
+/*Had to add ids because the css for the list in nav and this one were conflicting*/
+/*I should have had them associated with ids in the first place I guess*/
+#extraContact {
+    list-style-position: inside;
+}
+#phone::marker
+{
+    /*list-style: disc;*/
+    content: "☎";
+}
+#mail::marker
+{
+    /*list-style-type: disc;*/
+    content: "📧";
+}
+
+/*Although fun to play around with I don't want my text area to be resizable the way it is*/
+textarea {
+    resize: none;
+}
+
+/*when there is an error it should appear in a box or something 
+  insted of just text right next to the field name*/
+.errorNoti 
+{
+    border: 3px solid #af7474;
+    border-radius: 10px ;
+    padding: 10px ;
+    background-color: #af7474;
 }
