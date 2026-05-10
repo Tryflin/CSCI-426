@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
             if (empty($custom) ) 
                 {
                     //die("Custom Reason required") ;
-                    $errors[] = "Custum Reason required" ;
+                    $errors[] = "Custom Reason required" ;
                 }
         }
     else 
