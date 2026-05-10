@@ -55,6 +55,5 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
                 ?>
         </fieldset>
     </form>
-    <script src="loginPage.js"></script>
 </body>
 </html>

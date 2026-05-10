@@ -11,6 +11,7 @@
         <li><a href="contact.php">Contact</a></li>
     </ul>
     <?php
+    session_start();
      if(isset($_SESSION['username'])) {
          echo '<a href="calendar.html" class="nav-button">'
         . htmlspecialchars($_SESSION['username']) .
