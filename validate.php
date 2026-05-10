@@ -1,5 +1,11 @@
+<!--Author of File: Hayden Arceneaux
+    Purpose: Validate input from forms to either send to db
+             Or advise user to revise inputs-->
+
 <?php
 session_start() ;
+include 'db.php' ;
+
 //variables need to be declared first because of 
 //rendering so the other files can actually use them
 $name = '' ;
@@ -89,8 +95,95 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
     $_SESSION['reason'] = $reason ;
     $_SESSION['custom'] = $custom ;
 
+    //If there are no issues information should be added to froms tbale
+    //in DB
+
+    //if the very first error is nothing there shouldn't be any others
+    if (empty($errors) ) 
+        {
+            try
+            {
+                //creates a copy of the custom variable because it CAN be 
+                //null and I wil set the copy to null rather than the input itself
+                $customCopy = ($reason === 'other') ? $custom : null ;
+
+                // if ($reason === 'other' ) 
+                //     {
+                //         $stmt = $conn->prepare("
+                //             INSERT INTO Forms (ClientName, Email, Reason, CustomReason, ClientConcern)
+                //             VALUES (:name, :email, :reason, null, :comment)
+                //         ") ;
+                //     }
+                // else
+                //     {
+                //         $stmt = $conn->prepare("
+                //             INSERT INTO Forms (ClientName, Email, Reason, CustomReason, ClientConcern)
+                //             VALUES (:name, :email, :reason, :custom, :comment)
+                //         ") ;
+                //     }
+                $stmt = $conn->prepare("
+                    INSERT INTO Forms (ClientName, ClientEmail, Reason, CustomReason, ClientConcern)
+                    VALUES (:name, :email, :reason, :custom, :comment)
+                ") ;
+
+
+                $stmt->execute([
+                    ":name" => $name,
+                    ":email" => $email,
+                    ":reason" => $reason,
+                    ":custom" => $customCopy,
+                    ":comment" => $comment
+                ]) ;
+
+                //cant actually test the email part from local host so I guess
+                //that just has to wait
+
+                //form should be sent to email before values are wiped
+                if (!empty($customCopy) ) 
+                    {
+                        $reason = $customCopy ;
+                    }
+                $headers = "From: TBHDtaskmanagement@gmail.com\r\n" ;
+                $headers .= "Reply-To: $email\r\n" ;
+                mail("TBHDtaskmanagement@gmail.com",
+                     htmlspecialchars($reason),
+                      htmlspecialchars($comment),
+                      $headers) ;
+
+                //with the form properly submitted and in the db I can now
+                //remove the values as I won't need to echo them back out for 
+                //any reason
+                $_SESSION['name'] = "" ;
+                $_SESSION['email'] = "" ;
+                $_SESSION['comment'] = "" ;
+                $_SESSION['reason'] = "account" ;
+                $_SESSION['custom'] = "" ;
+
+                //popup to let them know the form was submitted
+                $_SESSION['FormSubmitted'] = true ;
+
+                header("Location: contact.php") ;
+                exit;
+                //die("Form submitted") ;
+            }
+            catch (PDOException $e) 
+            {
+                //die("failed to send data to database") ;
+                //more so for debugging so I know what happened
+                die("Failed to send data to database " . $e->getMessage()) ;
+            }
+
+            //Should probably close stuff 
+            $stmt = null ;
+            $conn = null ;
+        }
+
+    if (!empty($errors) ) {
+
     header("Location: contact.php") ;
     exit;
+
+    }
     
 }
 

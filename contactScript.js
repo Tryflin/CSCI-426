@@ -1,3 +1,4 @@
+//Author of JS: Hayden Arceneaux
 
 const clientReason = document.getElementById ("clientReason") ;
 const newOption = document.getElementById ("otherReason" ) ;

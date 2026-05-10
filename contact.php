@@ -1,3 +1,5 @@
+<!--Author of Task Management System Contact Page: Hayden Arceneaux-->
+
 <!--for ssr-->
 <?php
 session_start() ;
@@ -16,6 +18,8 @@ unset(
     $_SESSION['comment'], 
     $_SESSION['reason'],
     $_SESSION['custom'] ) ;
+
+//this is for when they submit the form
 ?>
 
 <!DOCTYPE html>
@@ -38,13 +42,13 @@ unset(
             <span class="logo">Task Management System</span>
 
             <ul>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="index.html">About</a></li>
+                <li><a href="calendar.php">Calendar</a></li>
+                <li><a href="index.php">About</a></li>
                 <li><a href="contact.php">Contact</a></li>
             </ul>
             
             <!--Reused signup button for login-->
-            <a href="login.html" class="signup-button">Log In</a>
+            <a href="login.php" class="signup-button">Log In</a>
         </nav>
 
         <main>
@@ -67,7 +71,7 @@ unset(
                                 </li>
                                 <li id="mail">
                                     <!--We don't have a company email or anything-->
-                                    Email us directly at placeholder@placeholder.com
+                                    Email us directly at TBHDtaskmanagement@gmail.com
                                 </li>
                             </ul>
                         </section>
@@ -88,6 +92,20 @@ unset(
                         
                         <!--php dont know where to end before the html starts apparently-->
                         <?php endif; ?>
+
+                    <!--Notification for if they completed submission-->
+                        <?php if (!empty($_SESSION['FormSubmitted'])) : ?>
+                            <!--I am using the same class because its easier-->
+                            <aside class="errorNoti">
+                                <?php 
+                                    echo "Thank you for your feedback!" ; 
+                                    unset($_SESSION['FormSubmitted']) ;
+                                ?>
+                            </aside>
+                                
+                        <?php endif; ?>
+                        
+
                     <section class="cell">
                         
 
