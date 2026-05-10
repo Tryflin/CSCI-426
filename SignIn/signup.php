@@ -1,7 +1,6 @@
 <?php
-session_start();
 //this gives us $conn, for DB connection
-require 'db.php';
+require_once 'db.php';
 
 $passwordError = "";
 $usernameError = "";
@@ -35,6 +34,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $sql = "INSERT INTO users(username, email, passwordID) VALUES (:username, :email, :passwordID)";
             $stmt = $conn->prepare($sql);
             $stmt->execute([":username" => $username, ":email" => $email, ":passwordID" => $passwordHash]);
+
+            
         }
     }
     //Starts out with signup, switches to error page if passwords dont match, then moves to next page

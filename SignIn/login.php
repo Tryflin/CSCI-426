@@ -1,3 +1,14 @@
+<?php
+session_start();
+require_once 'db.php';
+
+if(isset($username) && isset($password)){
+    
+}
+
+?>
+
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
