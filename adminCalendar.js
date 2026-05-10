@@ -34,7 +34,7 @@ fetch("getUser.php")
         currentUserId = data.user_id;
         console.log("Logged in as user:", currentUserId);
 
-        loadTasksFromDB(); 
+        loadAllTasks(); 
     })
     .catch(err => console.error("User session error:", err));
 
@@ -111,7 +111,7 @@ function generateCalendar()
             {
                 const s = document.createElement("span");
                 s.className = `task ${t.status.toLowerCase()}`;
-                s.textContent = t.title;
+                s.textContent = `${t.title} (${t.username})`;
                 td.appendChild(s);
             });
         }
@@ -294,6 +294,7 @@ function renderTasks(filter = "")
         t.status.toLowerCase().includes(query) ||
         t.priority.toLowerCase().includes(query)
     );
+    
 
     if (filtered.length === 0) 
     {
@@ -305,10 +306,13 @@ function renderTasks(filter = "")
     {
         const li = document.createElement("li");
 
-        li.innerHTML = `
-            <strong>${task.title}</strong>
-            <span class='task-meta'>${task.priority} | ${task.status}</span>
-            <span>${task.desc}</span>
+        li.innerHTML = 
+        `
+            <strong>${task.title}</strong><br>
+            User: ${task.username}<br>
+            ${task.desc}<br>
+            Priority: ${task.priority}<br>
+            Status: ${task.status}
         `;
 
         const toggle = document.createElement("button");
@@ -327,48 +331,42 @@ function renderTasks(filter = "")
 }
 
 //New code, loads the data from the database using the php files, backend//
-function loadTasksFromDB() 
+function loadAllTasks()
 {
-    fetch("getTasks.php")
-    .then(res => res.json())
-    .then(data => 
-    {
-        if (!data.success) 
+    fetch("getAllTasks.php")
+        .then(res => res.json())
+        .then(data =>
         {
-            console.error("Task load error:", data.error);
-            return;
-        }
-
-        // reset memory
-        for (const k in tasks) 
-        {
-            delete tasks[k];
-        }
-
-        data.data.forEach(t => 
-        {
-            const dateKey = t.task_date;
-
-            if (!tasks[dateKey]) 
+            if (!data.success)
             {
-                tasks[dateKey] = [];
+                alert(data.error);
+                return;
             }
 
-            tasks[dateKey].push(
+            data.data.forEach(task =>
             {
-                id: t.id,
-                title: t.title,
-                desc: t.description,
-                priority: t.priority,
-                status: t.status,
-                reminder: t.reminder_time
-            });
-        });
+                const date = task.task_date;
 
-        generateCalendar();
-    })
-    //error checking//
-    .catch(err => console.error(err));
+                if (!tasks[date])
+                {
+                    tasks[date] = [];
+                }
+
+                tasks[date].push(
+                {
+                    id: task.id,
+                    title: task.title,
+                    desc: task.description,
+                    priority: task.priority,
+                    status: task.status,
+                    reminder: task.reminder_time,
+                    username: task.username
+                });
+            });
+
+            generateCalendar();
+        })
+        .catch(err => console.error(err));
 }
 
 //logout function, stupid easy//
@@ -483,6 +481,59 @@ function toggleHighContrast()
     document.body.classList.toggle("high-contrast", highContrastMode);
 
     localStorage.setItem("highContrastMode", highContrastMode);
+}
+function loadAllTasks()
+{
+    fetch("getAllTasks.php")
+        .then(res => res.json())
+        .then(data =>
+        {
+            if (!data.success)
+            {
+                alert(data.error || "Failed to load tasks");
+                return;
+            }
+
+            // Clear current tasks
+            for (const k in tasks)
+            {
+                delete tasks[k];
+            }
+
+            // Load tasks into calendar structure
+            data.data.forEach(task =>
+            {
+                const date = task.task_date;
+
+                if (!tasks[date])
+                {
+                    tasks[date] = [];
+                }
+
+                tasks[date].push(
+                {
+                    id: task.id,
+                    title: task.title,
+                    desc: task.description,
+                    priority: task.priority,
+                    status: task.status,
+                    reminder: task.reminder_time,
+                    username: task.username
+                });
+            });
+
+            generateCalendar();
+
+            // If a date is already selected, refresh sidebar
+            if (selected)
+            {
+                renderTasks();
+            }
+        })
+        .catch(err =>
+        {
+            console.error("Admin task load error:", err);
+        });
 }
 
 //makes sure order is good//
