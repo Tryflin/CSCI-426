@@ -1,5 +1,6 @@
 <?php
 //this gives us $conn, for DB connection
+session_start();
 require_once 'db.php';
 
 $passwordError = "";
@@ -35,8 +36,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $stmt = $conn->prepare($sql);
             $stmt->execute([":username" => $username, ":email" => $email, ":passwordID" => $passwordHash]);
 
+            //Second SQL call to get ID
+            $sql = "SELECT id FROM users WHERE username = :username";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':username' => $username]);
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
             $password = $pass1;
-            header("calendar.html");
+            $_SESSION["username"] = $username;
+            $_SESSION["userID"] = $user["id"];
+            header("Location: calendar.html");
+            exit;
         }
     }
     //Starts out with signup, switches to error page if passwords dont match, then moves to next page
@@ -56,9 +66,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         <span class="logo">Task Management System</span>
 
         <ul>
-            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="calendar.php">Calendar</a></li>
             <li><a href="index.php">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.php">Contact</a></li>
         </ul>
         
         <!--Reused signup button for login-->

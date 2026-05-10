@@ -6,12 +6,17 @@
 <nav>
     <span class="logo">Task Management System</span>
     <ul>
-        <li><a href="calendar.html">Calendar</a></li>
+        <li><a href="calendar.php">Calendar</a></li>
         <li><a href="index.php">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.php">Contact</a></li>
     </ul>
-    <?php 
-    
+    <?php
+     if(isset($_SESSION['username'])) {
+         echo '<a href="calendar.html" class="nav-button">'
+        . htmlspecialchars($_SESSION['username']) .
+        '</a>';
+    } else{
+        echo '<a href="signup.php" class="nav-button">Get Started</a>';
+    }
     ?>
-    <a href="signup.php" class="nav-button">Get Started</a>
 </nav>

@@ -2,25 +2,27 @@
 session_start();
 require_once 'db.php';
 
-//If username and password vars are set, attempt login
-if(isset($username) && isset($password)){
-    $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
-    $sql = 'SELECT id passwordID FROM users WHERE username = :username AND passwordID = :passwordID';
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':username'=> $username,':passwordID'=> $passwordHash]);
+if($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    //Fetshes results from SQL query
+    $username = $_POST['user'] ?? '';
+    $password = $_POST['pass'] ?? '';
+
+    $sql = "SELECT id, passwordID FROM users WHERE username = :username";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':username' => $username]);
+
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if($user && password_verify($pass1, $user['passHASH'])){
-        echo "Login success";
-        header("index.php");
-    }
-    else{
-        echo "Error";
-    }
-}
+    if($user && password_verify($password, $user['passwordID'])) {
 
+        $_SESSION['user_id'] = $user['id'];
+
+        header("Location: calendar.php");
+        exit;
+    }
+
+    $passwordError = "Invalid username or password";
+}
 ?>
 
 
@@ -35,7 +37,7 @@ if(isset($username) && isset($password)){
     <!--Kept consistant with About Page-->
     <?php include 'navbar.php'; ?>
 
-    <form id="loginForm" action="">
+<form id="loginForm" action="" method="POST">
         <fieldset>
             <legend>Log In</legend>
             <label for="user">Username</label>
@@ -46,7 +48,11 @@ if(isset($username) && isset($password)){
                 <p for="rememberMe">Remember Me?</p>
                 <input type="checkbox" id="rememberMe" name="rememberMe">
             </div>
-            <button type="button" onclick="OnLogin()">Login</button>
+            <button type="submit">Login</button>
+            <?php 
+            if(isset(($passwordError)))
+                echo "<u1 style='color:red;'>$passwordError</u1>"
+                ?>
         </fieldset>
     </form>
     <script src="loginPage.js"></script>
