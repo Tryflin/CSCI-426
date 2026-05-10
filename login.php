@@ -7,15 +7,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST['user'] ?? '';
     $password = $_POST['pass'] ?? '';
 
-    $sql = "SELECT id, passwordID FROM users WHERE username = :username";
+    $sql = "SELECT users.id, userlogin.passHASH
+            FROM users
+            INNER JOIN userlogin
+            ON users.id = userlogin.userID
+            WHERE userlogin.username = :username";
+
     $stmt = $conn->prepare($sql);
     $stmt->execute([':username' => $username]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if($user && password_verify($password, $user['passwordID'])) {
+    if($user && password_verify($password, $user['passHASH'])) 
+    {
 
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['userID'] = $user['id'];
 
         header("Location: calendar.php");
         exit;
@@ -55,5 +61,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
                 ?>
         </fieldset>
     </form>
+    <script src="loginPage.js"></script>
 </body>
 </html>

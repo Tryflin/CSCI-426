@@ -13,9 +13,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $pass1 = $_POST["pass1"] ??"";
         $pass2 = $_POST["pass2"] ??"";
 
-        $sql = "SELECT * FROM users WHERE username = :username";
+        $sql = "SELECT * FROM users WHERE NAME = :NAME";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([":username" => $username]);
+        $stmt->execute([":NAME" => $username]);
 
         //Checks if username is taken, or if passwords dont match
         if($stmt->rowCount() > 0){
@@ -25,40 +25,34 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         }
         if($pass1 != $pass2){
             $passwordError = "Passwords do not match!";
-            
-        } else if
-            (strlen($passwordError) < 8 || 
-            preg_match('/[A-Z]/', $pass1) ||
-            preg_match('/[0-9]/', $pass1)){
-        $passwordError = 'Passwords must contain a capital letter and a number!';
-        }
-        else{
+        } else{
             $passwordError = "";
         }
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailError = "";
-        } else {
-            $emailError = "Email is not required, but this is not a valid email!";
-        }
-
         //if no problems making account
-        if($passwordError == "" and $usernameError == "" and $emailError = ""){
+        if($passwordError == "" and $usernameError == ""){
             $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users(username, email, passwordID) VALUES (:username, :email, :passwordID)";
+            $sql = "INSERT INTO users(NAME, email, password)
+        VALUES (:NAME, :email, :password)";
+
             $stmt = $conn->prepare($sql);
-            $stmt->execute([":username" => $username, ":email" => $email, ":passwordID" => $passwordHash]);
+
+            $stmt->execute([
+                ":NAME" => $username,
+                ":email" => $email,
+                ":password" => $passwordHash
+            ]);
 
             //Second SQL call to get ID
-            $sql = "SELECT id FROM users WHERE username = :username";
+            $sql = "SELECT * FROM users WHERE NAME = :NAME";
             $stmt = $conn->prepare($sql);
-            $stmt->execute([':username' => $username]);
+            $stmt->execute([":NAME" => $username]);
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             $password = $pass1;
             $_SESSION["username"] = $username;
             $_SESSION["userID"] = $user["id"];
-            header("Location: calendar.html");
+            header("Location: calendar.php");
             exit;
         }
     }
@@ -92,11 +86,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         <fieldset>
             <legend>Create Your Account</legend>
             <label for="Name">Enter Your User Name</label>
-            <?php if (!empty($usernameError)) echo "<u1 style='color:red;'>$usernameError</u1>"; ?>
             <input id="Name" name="Name" placeholder="Username" required></input>
 
             <label for="Email">Enter Your Recovery Email</label>
-            <?php if (!empty($emailError)) echo "<u1 style='color:red;'>$emailError</u1>"; ?>
             <input id="Email" name="Email" placeholder="Email"></input>
             
             <label for="pass1">Enter Your Password</label>
