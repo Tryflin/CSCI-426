@@ -10,5 +10,8 @@
         <li><a href="index.php">About</a></li>
         <li><a href="contact.html">Contact</a></li>
     </ul>
-    <a href="signup.html" class="nav-button">Get Started</a>
+    <?php 
+    
+    ?>
+    <a href="signup.php" class="nav-button">Get Started</a>
 </nav>

@@ -18,7 +18,7 @@
 <body>
 
     <!--Top navigation bar (pulled from navbar.html)-->
-    <?php include 'navbar.html'; ?>
+    <?php include 'navbar.php'; ?>
 
     <!--Page title-->
     <div class="page-banner">

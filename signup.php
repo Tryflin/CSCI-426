@@ -35,7 +35,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $stmt = $conn->prepare($sql);
             $stmt->execute([":username" => $username, ":email" => $email, ":passwordID" => $passwordHash]);
 
-            
+            $password = $pass1;
+            header("calendar.html");
         }
     }
     //Starts out with signup, switches to error page if passwords dont match, then moves to next page
@@ -51,18 +52,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 </head>
 <body>
     <!--Top navigation bar-->
-    <!--Kept consistant with About Page-->
     <nav>
         <span class="logo">Task Management System</span>
 
         <ul>
             <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="index.html">About</a></li>
+            <li><a href="index.php">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
         
         <!--Reused signup button for login-->
-        <a href="login.html" class="signup-button">Log In</a>
+        <a href="login.php" class="signup-button">Log In</a>
     </nav>
 
     <form action="signup.php" method="POST">

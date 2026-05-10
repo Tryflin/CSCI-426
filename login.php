@@ -2,8 +2,23 @@
 session_start();
 require_once 'db.php';
 
+//If username and password vars are set, attempt login
 if(isset($username) && isset($password)){
-    
+    $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
+    $sql = 'SELECT id passwordID FROM users WHERE username = :username AND passwordID = :passwordID';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':username'=> $username,':passwordID'=> $passwordHash]);
+
+    //Fetshes results from SQL query
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($user && password_verify($pass1, $user['passHASH'])){
+        echo "Login success";
+        header("index.php");
+    }
+    else{
+        echo "Error";
+    }
 }
 
 ?>
@@ -18,17 +33,7 @@ if(isset($username) && isset($password)){
 <body>
     <!--Top navigation bar-->
     <!--Kept consistant with About Page-->
-    <nav>
-        <span class="logo">Task Management System</span>
-
-        <ul>
-            <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="index.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-
-        <a href="signup.html" class="signup-button">Sign Up</a>
-    </nav>
+    <?php include 'navbar.php'; ?>
 
     <form id="loginForm" action="">
         <fieldset>
