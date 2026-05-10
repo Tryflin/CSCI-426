@@ -36,3 +36,14 @@ CREATE TABLE notifications(
     is_read BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE forms
+(
+    ClientName VARCHAR(60) NOT NULL,
+    ClientEmail VARCHAR(60) NOT NULL,
+    Reason ENUM('account', 'ad', 'feedback', 'other') NOT NULL,
+    CustomReason VARCHAR(60) DEFAULT NULL,
+    ClientConcern VARCHAR(500) NOT NULL,
+    FormID INT AUTO_INCREMENT PRIMARY KEY,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
