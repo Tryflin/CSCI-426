@@ -103,6 +103,16 @@ require_once 'db.php';
             </section>
         </main>
         <!--Link to JavaScript-->
+        <script>
+            const userID = <?php echo json_encode($_SESSION['userID'] ?? null); ?>;
+
+            console.log("Logged in as user:", userID);
+
+            if (!userID) 
+            {
+                console.error("No logged in user found.");
+            }
+        </script>
         <script src="calendarScript.js"></script>
     </body>
 </html>

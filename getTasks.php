@@ -4,7 +4,7 @@ require 'db.php';
 
 header("Content-Type: application/json");
 
-if (!isset($_SESSION['user_id'])) 
+if (!isset($_SESSION['userID'])) 
 {
     echo json_encode([
         "success" => false,
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']))
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$userID = $_SESSION['userID'];
 
 try 
 {
@@ -21,12 +21,12 @@ try
     "
         SELECT id, title, description, priority, status, task_date, reminder_time
         FROM tasks
-        WHERE user_id = ?
+        WHERE userID = ?
         ORDER BY task_date ASC
     ";
 
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$user_id]);
+    $stmt->execute([$userID]);
 
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

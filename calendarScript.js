@@ -27,11 +27,11 @@ fetch("getUser.php")
         if (!data.loggedIn) 
         {
             alert("You are not logged in");
-            window.location.href = "SignIn/login.php";
+            window.location.href = "login.php";
             return;
         }
 
-        currentUserId = data.user_id;
+        currentUserId = data.userID;
         console.log("Logged in as user:", currentUserId);
 
         loadTasksFromDB(); 
@@ -156,7 +156,7 @@ function addTask()
     //new stuff to add it to the SQL, must match what is in the SQL, otherwise doesnt save//
     const data = 
     {
-        user_id: currentUserId,
+        userID: currentUserId,
         title,
         description: desc,
         priority,
@@ -384,7 +384,7 @@ window.logout = function ()
 
             if (data.success) 
             {
-                window.location.href = "SignIn/login.php";
+                window.location.href = "login.php";
             }
         })
         .catch(err => console.error(err));

@@ -17,14 +17,14 @@ if (!$data)
 try 
 {
     $sql = "INSERT INTO tasks 
-    (user_id, title, description, priority, status, task_date, reminder_time)
+    (userID, title, description, priority, status, task_date, reminder_time)
     VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
 
     $stmt->execute(
     [
-        $data['user_id'] ?? 1,
+        $data['userID'] ?? 1,
         $data['title'],
         $data['description'],
         $data['priority'],
