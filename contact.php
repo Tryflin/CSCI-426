@@ -109,7 +109,7 @@ unset(
                         
 
                         <form name="contactPage" action="validate.php" method="post">
-                            <label for="clientName">Full Name</label>
+                            <label for="clientName">Username</label>
                             <!--had to start identing each attribute 
                             because I actually couldn't read them anymore-->
                             <input
