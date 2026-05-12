@@ -135,6 +135,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
                 //that just has to wait
 
                 //form should be sent to email before values are wiped
+
+                //email doesn't seem to be working as of right now
                 if (!empty($customCopy) ) 
                     {
                         $reason = $customCopy ;
@@ -158,8 +160,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
                 //popup to let them know the form was submitted
                 $_SESSION['FormSubmitted'] = true ;
 
-                //header("Location: contact.php") ;
-                //exit;
+                header("Location: contact.php") ;
+                exit;
                 //die("Form submitted") ;
             }
             catch (PDOException $e) 
