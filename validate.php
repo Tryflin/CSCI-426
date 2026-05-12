@@ -32,6 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
                     //die("Custom Reason required") ;
                     $errors[] = "Custom Reason required" ;
                 }
+            else if (!preg_match("/^[a-zA-Z0-9-' ]*$/", $custom) )
+                {
+                    $errors[] = "Please remove any special characters from your reason" ;
+                }
         }
     else 
         {
@@ -48,11 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
             //simply adds to array to be read IF there are any mistakes made
             $errors[] = "Name required" ;
         }
-    else if (!preg_match("/^[a-zA-Z-' ]*$/", $name) )
+    else if (!preg_match("/^[a-zA-Z0-9-' ]*$/", $name) )
         {
             //die("Please no special characters for names") ;
 
-            $errors[] = "Please remove any special character in your name" ;
+            $errors[] = "Please remove any special characters from your name" ;
         }
     if (empty($email) ) 
         {
