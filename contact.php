@@ -2,7 +2,7 @@
 
 <!--for ssr-->
 <?php
-session_start() ;
+
 
 $errors = $_SESSION['errors'] ?? [] ;
 $name = $_SESSION['name'] ?? '' ;

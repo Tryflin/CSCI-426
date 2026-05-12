@@ -1,11 +1,9 @@
-<!--Author of Task Management System Calendar Page: Tristian Jurgens-->
-<?php
-session_start();
-require_once 'db.php';
- ?>
 <!DOCTYPE html>
-<html lang="en">
+<?php
+    require_once 'db.php';
+?>
 
+<html lang="en">
     <!-- Header -->
     <head>
         <meta name="author" content="Tristian" />
@@ -31,6 +29,7 @@ require_once 'db.php';
         <button onclick="toggleHighContrast()">High Contrast</button>
     </div>
 
+    <script src="calendarScript.js"></script>
     <!-- Body -->
     <body>
 
@@ -81,7 +80,13 @@ require_once 'db.php';
                     <strong id="monthLabel"></strong>
 
                     <!--Goes to next month-->
-                    <button onclick="changeMonth(1)">→</button>
+                   <div class="calendar-controls">
+                        <button onclick="changeMonth(1)">→</button>
+
+                        <button onclick="logout()" class="logout-btn">
+                            Logout
+                        </button>
+                    </div>
                     
                 </section>
 
@@ -102,18 +107,6 @@ require_once 'db.php';
                 </table>
             </section>
         </main>
-        <!--Link to JavaScript-->
-        <script>
-            const userID = <?php echo json_encode($_SESSION['userID'] ?? null); ?>;
-
-            console.log("Logged in as user:", userID);
-
-            if (!userID) 
-            {
-                console.error("No logged in user found.");
-            }
-        </script>
-        <script src="calendarScript.js"></script>
     </body>
 </html>
 

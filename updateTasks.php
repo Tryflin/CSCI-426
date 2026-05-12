@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($_SESSION['user_id'])) 
+if (!isset($_SESSION['userID'])) 
 {
     echo json_encode(
     [
@@ -31,9 +31,9 @@ if (!$id || !$status)
 
 try 
 {
-    $sql = "UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?";
+    $sql = "UPDATE tasks SET status = ? WHERE id = ? AND userID = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$status, $id, $_SESSION['user_id']]);
+    $stmt->execute([$status, $id, $_SESSION['userID']]);
 
     echo json_encode(
     [

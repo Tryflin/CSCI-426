@@ -2,26 +2,20 @@
 session_start();
 require_once 'db.php';
 
-if($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $username = $_POST['user'] ?? '';
-    $password = $_POST['pass'] ?? '';
+    $username = trim($_POST['user'] ?? '');
+    $password = trim($_POST['pass'] ?? '');
 
-    $sql = "SELECT users.id, userlogin.passHASH
-            FROM users
-            INNER JOIN userlogin
-            ON users.id = userlogin.userID
-            WHERE userlogin.username = :username";
-
+    $sql = "SELECT userID, passHASH FROM userlogin WHERE username = :username";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':username' => $username]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if($user && password_verify($password, $user['passHASH'])) 
-    {
+    if ($user && password_verify($password, $user['passHASH'])) {
 
-        $_SESSION['userID'] = $user['id'];
+        $_SESSION['userID'] = $user['userID'];
 
         header("Location: calendar.php");
         exit;
@@ -56,11 +50,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
             <button type="submit">Login</button>
             <?php 
-            if(isset(($passwordError)))
-                echo "<u1 style='color:red;'>$passwordError</u1>"
-                ?>
+if (isset($passwordError)) {
+    echo "<p style='color:red;'>$passwordError</p>";
+}
+?>
         </fieldset>
     </form>
-    <script src="loginPage.js"></script>
 </body>
 </html>

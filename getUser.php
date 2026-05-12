@@ -7,3 +7,4 @@ echo json_encode(
     "loggedIn" => isset($_SESSION['userID']),
     "userID" => $_SESSION['userID'] ?? null
 ]);
+?>

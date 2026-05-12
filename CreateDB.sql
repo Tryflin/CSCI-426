@@ -10,6 +10,7 @@ CREATE TABLE users(
     email VARCHAR(255),
     isAdmin BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password varchar(255) NOT NULL
 );
 #Table responsible for checking if user exists, and if their password is correct. 
 #Password not stored for security
@@ -35,6 +36,7 @@ CREATE TABLE notifications(
     message TEXT,
     is_read BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    reminder_time datetime DEFAULT NULL
 );
 CREATE TABLE forms
 (

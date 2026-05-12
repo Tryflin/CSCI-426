@@ -34,7 +34,8 @@ fetch("getUser.php")
         currentUserId = data.userID;
         console.log("Logged in as user:", currentUserId);
 
-        loadTasksFromDB(); 
+        loadTasksFromDB();
+        generateCalendar();
     })
     .catch(err => console.error("User session error:", err));
 
@@ -162,7 +163,7 @@ function addTask()
         priority,
         status,
         date: selected,
-        reminder_time: reminder  
+        reminder_time: reminder || null 
     };
 
     //allows you to add the task to the database//
@@ -177,15 +178,25 @@ function addTask()
     })
 
     .then(res => res.json())
-    .then(response => 
+    .then(response =>
     {
         console.log(response);
 
-        if (!tasks[selected]) tasks[selected] = [];
+        if (!response.success)
+        {
+            console.error("Save failed:", response.error);
+            alert("Task failed to save.");
+            return;
+        }
 
-        //This adds the new task//
+        if (!tasks[selected])
+        {
+            tasks[selected] = [];
+        }
+
         tasks[selected].push(
         {
+            id: response.id,
             title,
             desc,
             priority,
@@ -193,16 +204,12 @@ function addTask()
             reminder
         });
 
-        //it just an easy way to clear the input fields//
         document.getElementById("taskTitle").value = "";
         document.getElementById("taskDesc").value = "";
 
-        //refreshes the UI to reflect the tasks added//
         renderTasks();
         generateCalendar();
     })
-    //error finding//
-    .catch(err => console.error(err));
 }
 
 //This is to delete tasks from the backend, no longer the just the frontend//
@@ -485,11 +492,7 @@ function toggleHighContrast()
     localStorage.setItem("highContrastMode", highContrastMode);
 }
 
-//makes sure order is good//
-document.addEventListener("DOMContentLoaded", () => 
-{
-    generateCalendar();
-});
+
 
 
 //Refrences for JS (I had to learn a lot, and a lot of code is learned from these sources): 

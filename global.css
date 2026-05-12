@@ -92,3 +92,8 @@ footer {
 #scrollButton:hover {
     background-color: #5a5d8f;
 }
+.logout-btn
+{
+    cursor: pointer;
+    border: none;
+}

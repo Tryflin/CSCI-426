@@ -140,10 +140,24 @@ main
 }
 
 /*Calander header Section*/
-.calendar-header 
+.calendar-header
 {
-  text-align: center;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-controls
+{
+  display: flex;
+  gap: 10px;
+}
+
+.logout-btn
+{
+  width: auto;
+  padding: 10px 16px;
 }
 
 .calendar-header button 

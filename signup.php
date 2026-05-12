@@ -1,64 +1,68 @@
 <?php
-//this gives us $conn, for DB connection
 session_start();
 require_once 'db.php';
 
 $passwordError = "";
 $usernameError = "";
 
-//Catch html request method, then do verification on server
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-        $username = $_POST["Name"] ?? "";
-        $email = $_POST["Email"] ??"";
-        $pass1 = $_POST["pass1"] ??"";
-        $pass2 = $_POST["pass2"] ??"";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-        $sql = "SELECT * FROM users WHERE NAME = :NAME";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([":NAME" => $username]);
+    $username = trim($_POST["Name"] ?? "");
+    $email = trim($_POST["Email"] ?? "");
+    $pass1 = $_POST["pass1"] ?? "";
+    $pass2 = $_POST["pass2"] ?? "";
 
-        //Checks if username is taken, or if passwords dont match
-        if($stmt->rowCount() > 0){
-            $usernameError = "This username has already been taken!";
-        } else{
-            $usernameError = "";
-        }
-        if($pass1 != $pass2){
-            $passwordError = "Passwords do not match!";
-        } else{
-            $passwordError = "";
-        }
+    // Check if username exists in users table
+    $sql = "SELECT id FROM users WHERE NAME = :NAME";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([":NAME" => $username]);
 
-        //if no problems making account
-        if($passwordError == "" and $usernameError == ""){
-            $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users(NAME, email, password)
-        VALUES (:NAME, :email, :password)";
-
-            $stmt = $conn->prepare($sql);
-
-            $stmt->execute([
-                ":NAME" => $username,
-                ":email" => $email,
-                ":password" => $passwordHash
-            ]);
-
-            //Second SQL call to get ID
-            $sql = "SELECT * FROM users WHERE NAME = :NAME";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([":NAME" => $username]);
-
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            $password = $pass1;
-            $_SESSION["username"] = $username;
-            $_SESSION["userID"] = $user["id"];
-            header("Location: calendar.php");
-            exit;
-        }
+    if ($stmt->rowCount() > 0) {
+        $usernameError = "This username has already been taken!";
     }
-    //Starts out with signup, switches to error page if passwords dont match, then moves to next page
 
-//Built in password hash function, very helpful!
+    if ($pass1 !== $pass2) {
+        $passwordError = "Passwords do not match!";
+    }
+
+    // If no errors, create account
+    if ($passwordError === "" && $usernameError === "") {
+
+        $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
+
+        // 1. Insert into users table
+        $sql = "INSERT INTO users (NAME, email, password)
+                VALUES (:NAME, :email, :password)";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+            ":NAME" => $username,
+            ":email" => $email,
+            ":password" => $passwordHash
+        ]);
+
+        // Get new user ID
+        $userID = $conn->lastInsertId();
+
+        // 2. Insert into userlogin table (REQUIRED by your system)
+        $sql = "INSERT INTO userlogin (username, passHASH, userID)
+                VALUES (:username, :passHASH, :userID)";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+            ":username" => $username,
+            ":passHASH" => $passwordHash,
+            ":userID" => $userID
+        ]);
+
+        // Set session
+        $_SESSION["username"] = $username;
+        $_SESSION["userID"] = $userID;
+
+        header("Location: calendar.php");
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -68,37 +72,39 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <title>Signup Page</title>
 </head>
 <body>
-    <!--Top navigation bar-->
-    <nav>
-        <span class="logo">Task Management System</span>
 
-        <ul>
-            <li><a href="calendar.php">Calendar</a></li>
-            <li><a href="index.php">About</a></li>
-            <li><a href="contact.php">Contact</a></li>
-        </ul>
-        
-        <!--Reused signup button for login-->
-        <a href="login.php" class="signup-button">Log In</a>
-    </nav>
+<nav>
+    <span class="logo">Task Management System</span>
 
-    <form action="signup.php" method="POST">
-        <fieldset>
-            <legend>Create Your Account</legend>
-            <label for="Name">Enter Your User Name</label>
-            <input id="Name" name="Name" placeholder="Username" required></input>
+    <ul>
+        <li><a href="calendar.php">Calendar</a></li>
+        <li><a href="index.php">About</a></li>
+        <li><a href="contact.php">Contact</a></li>
+    </ul>
 
-            <label for="Email">Enter Your Recovery Email</label>
-            <input id="Email" name="Email" placeholder="Email"></input>
-            
-            <label for="pass1">Enter Your Password</label>
-            <input id="pass1" name="pass1" type="password" placeholder="********" required></input>
-            <?php if (!empty($passwordError)) echo "<u1 style='color:red;'>$passwordError</u1>"; ?>
-            
-            <label for="pass2">Confirm Your Password</label>
-            <input id="pass2" name="pass2" type="password" placeholder="********" required></input>
+    <a href="login.php" class="signup-button">Log In</a>
+</nav>
+
+<form action="signup.php" method="POST">
+    <fieldset>
+        <legend>Create Your Account</legend>
+
+        <label for="Name">Enter Your User Name</label>
+        <input id="Name" name="Name" placeholder="Username" required>
+
+        <label for="Email">Enter Your Recovery Email</label>
+        <input id="Email" name="Email" placeholder="Email">
+
+        <label for="pass1">Enter Your Password</label>
+        <input id="pass1" name="pass1" type="password" placeholder="********" required>
+        <?php if (!empty($passwordError)) echo "<p style='color:red;'>$passwordError</p>"; ?>
+
+        <label for="pass2">Confirm Your Password</label>
+        <input id="pass2" name="pass2" type="password" placeholder="********" required>
+
         <button type="submit">Sign Up</button>
-        </fieldset>
-    </form>
+    </fieldset>
+</form>
+
 </body>
 </html>

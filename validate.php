@@ -1,9 +1,5 @@
-<!--Author of File: Hayden Arceneaux
-    Purpose: Validate input from forms to either send to db
-             Or advise user to revise inputs-->
-
 <?php
-session_start() ;
+session_start();
 include 'db.php' ;
 
 //variables need to be declared first because of 
@@ -122,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
                 //         ") ;
                 //     }
                 $stmt = $conn->prepare("
-                    INSERT INTO Forms (ClientName, ClientEmail, Reason, CustomReason, ClientConcern)
+                    INSERT INTO forms (ClientName, ClientEmail, Reason, CustomReason, ClientConcern)
                     VALUES (:name, :email, :reason, :custom, :comment)
                 ") ;
 
