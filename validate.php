@@ -158,8 +158,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" ) {
                 //popup to let them know the form was submitted
                 $_SESSION['FormSubmitted'] = true ;
 
-                header("Location: contact.php") ;
-                exit;
+                //header("Location: contact.php") ;
+                //exit;
                 //die("Form submitted") ;
             }
             catch (PDOException $e) 
