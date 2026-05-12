@@ -1,8 +1,7 @@
-<!--Author of Task Management System Contact Page: Hayden Arceneaux-->
-
-<!--for ssr-->
 <?php
+session_start() ;
 
+/*Author of Taks Management System Contact Page: Hayden Arceneaux*/
 
 $errors = $_SESSION['errors'] ?? [] ;
 $name = $_SESSION['name'] ?? '' ;
