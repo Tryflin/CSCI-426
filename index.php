@@ -4,6 +4,11 @@
     NOTE: Still need to check file paths for buttons (i believe done)
     NOTE: Server rendering edit 5/7/26
     Might update team roles later -->
+<?php
+    session_start();
+    require_once 'db.php';
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
