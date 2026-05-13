@@ -23,18 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($pass1 !== $pass2) {
         $passwordError = "Passwords do not match!";
-    } else if
-        (strlen($pass1) < 8 || 
-        preg_match('/[A-Z]/', $pass1) ||
-        preg_match('/[0-9]/', $pass1)){
-        $passwordError = 'Passwords must contain a capital letter and a number, and be longer than 8 characters';
     }
-
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailError = "";
-    } else {
-        $emailError = "Email is not required, but this is not a valid email!";
-    }
     // If no errors, create account
     if ($passwordError === "" && $usernameError === "" && $emailError === "") {
 
