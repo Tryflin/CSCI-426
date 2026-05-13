@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($user && password_verify($password, $user['passHASH'])) {
 
         $_SESSION['userID'] = $user['userID'];
+        $_SESSION['username'] = $username;
 
         header("Location: calendar.php");
         exit;
