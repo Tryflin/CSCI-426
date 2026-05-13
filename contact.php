@@ -37,7 +37,7 @@ unset(
     
 
     <body>
-    <?php include 'navbar.php'; ?>
+        <?php include 'navbar.php'; ?>
 
         <main>
             <section class="contact-section">
