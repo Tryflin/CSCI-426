@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($pass1 !== $pass2) {
         $passwordError = "Passwords do not match!";
     } else if
-        (strlen($passwordError) < 8 || 
+        (strlen($pass1) < 8 || 
         preg_match('/[A-Z]/', $pass1) ||
         preg_match('/[0-9]/', $pass1)){
         $passwordError = 'Passwords must contain a capital letter and a number!';
