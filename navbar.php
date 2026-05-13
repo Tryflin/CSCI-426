@@ -1,6 +1,5 @@
 <?php 
-session_start();
-$currentPage = basename($_SERVER['PHP_SELF']);
+    $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 
 <link rel="stylesheet" href="global.css">
