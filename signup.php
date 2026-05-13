@@ -23,10 +23,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($pass1 !== $pass2) {
         $passwordError = "Passwords do not match!";
+    } else if
+        (strlen($passwordError) < 8 || 
+        preg_match('/[A-Z]/', $pass1) ||
+        preg_match('/[0-9]/', $pass1)){
+        $passwordError = 'Passwords must contain a capital letter and a number!';
     }
 
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailError = "";
+    } else {
+        $emailError = "Email is not required, but this is not a valid email!";
+    }
     // If no errors, create account
-    if ($passwordError === "" && $usernameError === "") {
+    if ($passwordError === "" && $usernameError === "" && $emailError === "") {
 
         $passwordHash = password_hash($pass1, PASSWORD_DEFAULT);
 
@@ -90,14 +100,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <legend>Create Your Account</legend>
 
         <label for="Name">Enter Your User Name</label>
+            <?php if (!empty($usernameError)) echo "<u1 style='color:red;'>$usernameError</u1>"; ?>
         <input id="Name" name="Name" placeholder="Username" required>
 
         <label for="Email">Enter Your Recovery Email</label>
+            <?php if (!empty($emailError)) echo "<u1 style='color:red;'>$emailError</u1>"; ?>
         <input id="Email" name="Email" placeholder="Email">
 
         <label for="pass1">Enter Your Password</label>
         <input id="pass1" name="pass1" type="password" placeholder="********" required>
-        <?php if (!empty($passwordError)) echo "<p style='color:red;'>$passwordError</p>"; ?>
+            <?php if (!empty($passwordError)) echo "<p style='color:red;'>$passwordError</p>"; ?>
 
         <label for="pass2">Confirm Your Password</label>
         <input id="pass2" name="pass2" type="password" placeholder="********" required>
