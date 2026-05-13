@@ -47,7 +47,7 @@ unset(
             </ul>
             
             <!--Reused signup button for login-->
-            <a href="login.php" class="signup-button">Get Started</a>
+            <a href="login.php" class="signup-button">Sign Up</a>
         </nav>
 
         <main>
