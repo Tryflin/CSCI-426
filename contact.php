@@ -37,18 +37,7 @@ unset(
     
 
     <body>
-        <nav>
-            <span class="logo">Task Management System</span>
-
-            <ul>
-                <li><a href="calendar.php">Calendar</a></li>
-                <li><a href="index.php">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
-            
-            <!--Reused signup button for login-->
-            <a href="login.php" class="signup-button">Sign Up</a>
-        </nav>
+    <?php include 'navbar.php'; ?>
 
         <main>
             <section class="contact-section">
